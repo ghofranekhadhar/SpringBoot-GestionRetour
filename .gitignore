@@ -1,0 +1,13 @@
+target/
+*.class
+*.jar
+node_modules/
+dist/
+.angular/
+.idea/
+.vscode/
+*.iml
+fake_commits.py
+maven_output.txt
+Gen.java
+Gen.class
