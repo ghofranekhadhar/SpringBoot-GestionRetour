@@ -267,7 +267,7 @@ export class HistoriqueList implements OnInit {
   }
 
   toggleSort(): void {
-    this.sortOrder = 'ASC';
+    this.sortOrder = this.sortOrder === 'DESC' ? 'ASC' : 'DESC';
     this.applyFilters();
   }
 
