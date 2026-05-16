@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # 1. Base de données PostgreSQL
+  db:
+    image: postgres:15-alpine
+    container_name: retours-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 0
+      POSTGRES_DB: gestion_retours
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  # 2. Backend Spring Boot
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: retours-backend
+    ports:
+      - "8081:8081"
+    environment:
+      # Spring Boot se connecte au conteneur "db" sur le port 5432
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/gestion_retours
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=0
+      - SPRING_JPA_HIBERNATE_DDLAUTO=update
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  # 3. Frontend Angular
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: retours-frontend
+    ports:
+      - "80:80"     # Accessible sur http://localhost/
+      - "4200:80"   # Accessible aussi sur http://localhost:4200/
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
