@@ -54,9 +54,6 @@ import { UserSidebarComponent } from './user/user-sidebar/user-sidebar.component
 
         <!-- Actions droite -->
         <div class="navbar-actions">
-          <button class="theme-toggle-btn" (click)="toggleTheme()" title="Basculer le thème">
-            <i class="ph" [ngClass]="isLightMode ? 'ph-moon' : 'ph-sun'"></i>
-          </button>
           <ng-container *ngIf="isLoggedIn; else loginBtn">
             <span class="nav-badge">{{ userRole }}</span>
             <button (click)="logout()" class="nav-btn logout-btn">Déconnexion</button>
